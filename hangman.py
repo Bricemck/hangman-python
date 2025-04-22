@@ -31,30 +31,43 @@ while attempts > 0 and word_letters:
 
     print(f"Incorrect guesses: {', '.join(sorted(incorrect_guesses))}")
     #shows incorrect guesses.
+    #f is formatted string literal like the javascript backticks.
+    #Everything inside {} will be converted to a string 
+    #So the number of incorrect_guesses will be displayed.
+    #Join takes a list of strings and glues them together using the string before
+    #As a separator.  So I add ', ' and it will print in a readable way.
+    #Sorted is helpful for showing the incorrect_guesses in order they were guessed.
+    #Otherwise they might return haphazard.
     print(f"You have {attempts} guesses left")
+    #Same as above but obviously with attempts instead of incorrect_guesses.
+   
+    guess = input("Guess a letter: ").lower() #.lower avoids case issues.
 
-    guess = input("Guess a letter: ").lower()
-
-    if not guess.isalpha() or len(guess) !=1:
-        print("please enter a single valid letter.")
-        continue
-    if guess in guessed_letters or guess in incorrect_guesses:
+    if not guess.isalpha() or len(guess) !=1: #Checks if the input is a single character.
+        #If not skips to the next loop.
+        #Guess is my input function. isalpha() checks for alphabetical inputs.
+        #len(guess) !=1 checks if the length of the guess is not equal to 1.
+        #We only one one character guesses so this makes anything else invalid.
+        print("please enter a single valid letter.") #error message for the player.
+        continue #skips the rest of the loop and goes back to the top for user input.
+    if guess in guessed_letters or guess in incorrect_guesses: 
         print("You've already guessed that letter.")
+        #prevents duplicate guesses by printing an error message.
         continue
-    if guess in word_letters:
-        guessed_letters.add(guess)
-        word_letters.remove(guess)
-        print("Good guess!")
-        continue
+    if guess in word_letters: #If the letter is in the word.
+        guessed_letters.add(guess) #add it to guessed letters.
+        word_letters.remove(guess) #remove it from word letters.
+        print("Good guess!") #success message.
+        continue #skip loop, return to top for user input.
     else:
-        incorrect_guesses.add(guess)
-        attempts -= 1
-        print("Wrong guess.")
+        incorrect_guesses.add(guess) #if guess is wrong add to incorrect logic
+        attempts -= 1 #decrease attempts by one.
+        print("Wrong guess.") #error message.
 
-    print("-" * 40)
+    print("-" * 40) #Visual separator for easy 
 
-if not word_letters:
-    print(f"Congratulations! You guessed the word: {word}")
+if not word_letters: #checks to see if all the letters have been guessed.
+    print(f"Congratulations! You guessed the word: {word}") #prints win message in another f string.
 
-else: 
+else: #if loop ends because attempts ran out, print a lose message with the word revealed.
     print(f"Out of guesses! The Word was: {word}")
